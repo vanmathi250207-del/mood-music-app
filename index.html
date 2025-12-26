@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Music App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            transition: background 0.5s;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        #playlist div {
+            background: #f0f0f0;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #nowPlaying {
+            background: #222;
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎵 Mood Music Player</h1>
+
+    <label for="moodSelect">Choose your mood:</label>
+    <select id="moodSelect">
+        <option value="happy">Happy</option>
+        <option value="sad">Sad</option>
+        <option value="romantic">Romantic</option>
+        <option value="energetic">Energetic</option>
+        <option value="calm">Calm</option>
+    </select>
+
+    <div id="playlist">
+        <p>Select a mood to see songs.</p>
+    </div>
+
+    <div id="nowPlaying">
+        <p>No song selected yet.</p>
+    </div>
+
+    <script>
+        const playlists = {
+            happy: [
+                { title: "Happy", artist: "Pharrell Williams", duration: "3:53", youtubeID: "y65ov-sUYtM" }
+            ],
+            sad: [
+                { title: "Someone Like You", artist: "Adele", duration: "4:45", youtubeID: "hLQ3W0C0c00" }
+            ],
+            romantic: [
+                { title: "Perfect", artist: "Ed Sheeran", duration: "4:23", youtubeID: "2Vv-BfVoq4g" }
+            ],
+            energetic: [
+                { title: "Eye of the Tiger", artist: "Survivor", duration: "4:05", youtubeID: "btPJPFnesV4" }
+            ],
+            calm: [
+                { title: "Weightless", artist: "Marconi Union", duration: "5:30", youtubeID: "UfcAVejslrU" }
+            ]
+        };
+
+        const moodSelect = document.getElementById("moodSelect");
+        const playlistDiv = document.getElementById("playlist");
+        const nowPlayingDiv = document.getElementById("nowPlaying");
+
+        moodSelect.addEventListener("change", function() {
+            const mood = this.value;
+            const songs = playlists[mood];
+
+            playlistDiv.innerHTML = "";
+
+            songs.forEach(song => {
+                const songElement = document.createElement("div");
+                songElement.innerHTML = `
+                    <h3>${song.title}</h3>
+                    <p><strong>${song.artist}</strong> • ${song.duration}</p>
+                    <button onclick="playSong('${song.title}', '${song.artist}', '${song.youtubeID}')">Play Now</button>
+                `;
+                playlistDiv.appendChild(songElement);
+            });
+        });
+
+        function playSong(title, artist, youtubeID) {
+            nowPlayingDiv.innerHTML = `
+                <h2>🎧 Now Playing</h2>
+                <h3>${title}</h3>
+                <p><strong>Artist:</strong> ${artist}</p>
+                <p><strong>YouTube ID:</strong> ${youtubeID}</p>
+                <p><em>In a real app, this would play the song!</em></p>
+            `;
+
+            const colors = {
+                happy: "#FFEB3B",
+                sad: "#9C27B0",
+                romantic: "#FF4081",
+                energetic: "#FF5722",
+                calm: "#2196F3"
+            };
+            document.body.style.backgroundColor = colors[moodSelect.value] || "#FFFFFF";
+        }
+    </script>
+
+</body>
+</html>
